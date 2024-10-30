@@ -1,8 +1,18 @@
-const Medicament = require("../models/medicament");
+const Medicament = require("../models/medicaments");
+const Groupe = require("../models/groupes");
 
 const getMedicaments = async (req, res) => {
   try {
-    const medicaments = await Medicament.find({});
+    console.log(req.query)
+    const medicaments = await Medicament.find(req.query).populate('groupe');
+    
+    // const medicaments= await Medicament.find()
+    // .where('nom')
+    // .equals(req.query.nom)
+    // .where('groupe')
+    // .equals(req.query.groupe);
+
+
     res.status(200).json(medicaments);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -12,7 +22,7 @@ const getMedicaments = async (req, res) => {
 const getMedicament = async (req, res) => {
   try {
     const { id } = req.params;
-    const medicament = await Medicament.findById(id);
+    const medicament = await Medicament.findById(id).populate('groupe');
     res.status(200).json(medicament);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -31,7 +41,16 @@ const storeMedicament = async (req, res) => {
 const updateMedicament = async (req, res) => {
   try {
     const { id } = req.params;
-    const medicament = await Medicament.findByIdAndUpdate(id, req.body);
+    const { groupe } = req.body;
+
+    if (groupe) {
+      const groupeExists = await Groupe.findById(groupe);
+      if (!groupeExists) {
+        return res.status(400).json({ message: "Groupe non trouvé" });
+      }
+    }
+
+    const medicament = await Medicament.findByIdAndUpdate(id, req.body, { new: true });
     if (!medicament) {
       return res.status(404).json({ message: "Medicament not found" });
     }

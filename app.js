@@ -1,29 +1,46 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+require("dotenv").config();
+
 const app = express();
-const port = 3000;
-const Medicament = require("./models/medicament");
-const medicamentRoute = require("./routes/medicament.route");
+const port = process.env.PORT || 3000;
+
+const Medicament = require("./models/medicaments");
+const Groupe = require("./models/groupes")
 
 // middleware
+app.use(
+    cors({
+       origin: ["http://localhost:3001"],
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      credentials: true,
+    })
+);
+app.use(cookieParser());
 app.use(express.json()); // pour parser les requêtes en JSON
 app.use(express.urlencoded({ extended: false }));
 
-// routes
+// Routes
+const authRoute = require("./routes/AuthRoute");
+app.use("/",authRoute)
+const groupeRoute = require("./routes/groupeRoute");
+app.use("/api/groupes", groupeRoute);
+const medicamentRoute = require("./routes/medicament.route");
 app.use("/api/medicaments", medicamentRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello");
 });
 
+// MongoDB connection
 mongoose
-  .connect(
-    "mongodb+srv://mfd:passer123@fadjma-db.202h4.mongodb.net/?retryWrites=true&w=majority&appName=fadjma-db"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connexion à MongoDB réussie !");
     app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`);
+      console.log(`Serveur démarré sur le port ${port}`);
     });
   })
   .catch((error) => {
