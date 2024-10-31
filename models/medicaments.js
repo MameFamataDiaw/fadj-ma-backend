@@ -48,7 +48,7 @@ const medicamentSchema = new mongoose.Schema(
     groupe: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Groupe",
-      required: true,
+
     }
   },
   {
