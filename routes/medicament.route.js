@@ -16,6 +16,8 @@ router.post("/", storeMedicament);
 
 router.put("/:id", updateMedicament);
 
+router.patch("/:id", updateMedicament);
+
 router.delete("/:id", deleteMedicament);
 
 module.exports = router;

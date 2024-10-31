@@ -21,7 +21,14 @@ const getGroupe = async (req, res) => {
 
 const storeGroupe = async (req, res) => {
   try {
-    const groupe = await Groupe.create(req.body);
+    const { nomGroupe } = req.body;
+    const existingGroupe = await Groupe.findOne({ nomGroupe });
+
+    if (existingGroupe) {
+      return res.status(400).json({ message: "Ce groupe existe deja." });
+    }
+
+    const groupe = await Groupe.create({ nomGroupe });
     res.status(200).json(groupe);
   } catch (error) {
     res.status(500).json({ message: error.message });
