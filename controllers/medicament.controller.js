@@ -4,7 +4,7 @@ const Groupe = require("../models/groupes");
 const getMedicaments = async (req, res) => {
   try {
     console.log(req.query)
-    const medicaments = await Medicament.find(req.query).populate('groupe');
+    const medicaments = await Medicament.find(req.query).populate('groupe','nomGroupe');
     
     // const medicaments= await Medicament.find()
     // .where('nom')

@@ -71,7 +71,16 @@ module.exports.Login = async (req, res) => {
             }
         });
 
-        // const auth = await bcrypt.compare(password,user.password)
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({
+            success: false,
+            message: "Erreur serveur"
+        });
+    }
+}
+
+ // const auth = await bcrypt.compare(password,user.password)
         // if (!auth) {
         //     return res.json({message:'Incorrect password or email'})
         // }
@@ -82,11 +91,3 @@ module.exports.Login = async (req, res) => {
         // });
         // res.status(201).json({message: "User logged in successfully", success: true});
         // next()
-    } catch (error) {
-        console.error('Login error:', error);
-        res.status(500).json({
-            success: false,
-            message: "Erreur serveur"
-        });
-    }
-}

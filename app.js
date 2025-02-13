@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 const Medicament = require("./models/medicaments");
 const Groupe = require("./models/groupes")
@@ -15,7 +15,7 @@ app.use(
     cors({
        origin: [
         "https://fadj-ma-frontend.vercel.app",
-        "http://localhost:3001",
+        "http://localhost:3000",
       ],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
       credentials: true,
