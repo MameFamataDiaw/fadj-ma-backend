@@ -14,7 +14,7 @@ const Groupe = require("./models/groupes")
 app.use(
     cors({
        origin: [
-        "https://fadj-ma-frontend.vercel.app",
+        "https://fadj-ma-frontend.vercel.app/",
         "http://localhost:3000",
       ],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
