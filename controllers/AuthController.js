@@ -52,16 +52,17 @@ module.exports.Login = async (req, res) => {
         }
 
         const token = createSecretToken(user._id);
-        res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 3 * 24 * 60 * 60 * 1000 // 3 jours
-        });
+        // res.cookie("token", token, {
+        // httpOnly: true,
+        // secure: process.env.NODE_ENV === 'production',
+        // sameSite: 'strict',
+        // maxAge: 3 * 24 * 60 * 60 * 1000 // 3 jours
+        // });
 
         res.status(200).json({
             success: true,
             message: "Connexion réussie",
+            token: token,
             user: {
               id: user._id,
               email: user.email,
