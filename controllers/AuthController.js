@@ -62,7 +62,7 @@ module.exports.Login = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Connexion réussie",
-            token: token,
+            // token: token,
             user: {
               id: user._id,
               email: user.email,
